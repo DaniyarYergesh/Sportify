@@ -16,7 +16,7 @@
     <item
         android:id="@+id/navigation_new_contest"
         android:enabled="true"
-        android:icon="@drawable/icon_add"
+        android:icon="@drawable/home_01"
         android:title="" />
 
     <item

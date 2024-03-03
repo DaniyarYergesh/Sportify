@@ -16,4 +16,20 @@
     <string name="title_search">Search</string>
     <string name="title_profile">Profile</string>
     <string name="title_new_contest">new contest</string>
+    <string name="create_new_event">Create new Event</string>
+    <string name="duration">DURATION</string>
+    <string name="max_number_of_players">Max Number Of Players</string>
+    <string name="free">FREE</string>
+    <string name="tg">TG</string>
+    <string name="price">PRICE</string>
+    <string name="select_time">Select Time</string>
+    <string name="select_date">Select Date</string>
+    <string name="location">Location</string>
+    <string name="level">Level</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="reminders">REMINDERS</string>
+    <string name="notification">Notification</string>
+    <string name="email">Email</string>
+    <string name="create">Create</string>
 </resources>
