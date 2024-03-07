@@ -232,6 +232,7 @@
         android:textStyle="italic" />
 
     <LinearLayout
+        android:id="@+id/account_information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
@@ -253,7 +254,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:src="@tools:sample/avatars"
             app:srcCompat="@drawable/ic_arrow_left" />
     </LinearLayout>
 
@@ -279,7 +279,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:src="@tools:sample/avatars"
             app:srcCompat="@drawable/ic_arrow_left" />
 
     </LinearLayout>

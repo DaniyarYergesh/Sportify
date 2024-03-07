@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import com.example.sportify.R
+import androidx.navigation.findNavController
+import com.example.sportify.databinding.FragmentAccountEditBinding
 import com.example.sportify.databinding.FragmentProfileBinding
-import com.example.sportify.ui.home.HomeFragment
 
-class ProfileFragment : Fragment() {
+class AccountInformationFragment: Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
+    private var _binding: FragmentAccountEditBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,23 +27,11 @@ class ProfileFragment : Fragment() {
         val profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
 
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentAccountEditBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         return root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val navController = findNavController()
-        binding.accountInformation.setOnClickListener {
-            navController.navigate(R.id.action_navigation_profile_to_accountInformationFragment)
-        }
-
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
