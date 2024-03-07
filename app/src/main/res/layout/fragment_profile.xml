@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:text="Stone Stellar"
             android:textColor="#000000"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status: Online"
-            android:textSize="8sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textView6"
@@ -109,7 +109,7 @@
             android:gravity="center"
             android:text="Hi players, I’m from Almaty and i love playing volleyball and football. Let’s connect!"
             android:textColor="#000000"
-            android:textSize="8sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textView9"
@@ -147,7 +147,7 @@
         android:text="category"
         android:textAllCaps="true"
         android:textColor="#8BC34A"
-        android:textSize="6sp"
+        android:textSize="10dp"
         android:textStyle="bold"
         tools:ignore="SmallSp" />
 
@@ -167,7 +167,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="2dp"
             android:text="Volleyball"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView14"
@@ -178,7 +178,7 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="2dp"
             android:text="Football"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textView15"
@@ -189,14 +189,14 @@
             android:paddingHorizontal="10dp"
             android:paddingVertical="2dp"
             android:text="Climbing"
-            android:textSize="10sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_background"
             android:backgroundTint="@color/green1"
-            android:padding="6dp"
+            android:padding="8dp"
             android:src="@drawable/icon_add_small" />
     </LinearLayout>
 
@@ -209,7 +209,7 @@
         android:text="@string/location"
         android:textAllCaps="true"
         android:textColor="#8BC34A"
-        android:textSize="6sp"
+        android:textSize="10sp"
         android:textStyle="bold"
         tools:ignore="SmallSp" />
 
@@ -219,40 +219,69 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="Almaty, Kazakhstan"
-        android:textSize="10sp" />
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/editTextText3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Edit location"
+        android:inputType="text"
+        android:textSize="10sp"
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView18"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Account Information"
             android:textColor="@color/green1"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:src="@tools:sample/avatars"
+            app:srcCompat="@drawable/ic_arrow_left" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView19"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:text="Change Password"
             android:textColor="@color/green1"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:src="@tools:sample/avatars"
+            app:srcCompat="@drawable/ic_arrow_left" />
+
     </LinearLayout>
 
 </LinearLayout>
