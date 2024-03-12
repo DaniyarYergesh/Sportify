@@ -1,4 +1,4 @@
-package com.example.sportify.ui.profile
+package com.example.sportify.presentation.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
