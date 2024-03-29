@@ -12,6 +12,7 @@ import com.example.sportify.databinding.FragmentNewContestBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -99,6 +100,12 @@ class NewContestFragment : Fragment() {
         }
 
         return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val userRef = FirebaseDatabase.getInstance().getReference("events")
+
     }
 
 
