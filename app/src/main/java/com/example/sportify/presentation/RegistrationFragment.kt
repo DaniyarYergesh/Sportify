@@ -1,27 +1,19 @@
 package com.example.sportify.presentation
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.sportify.MainActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.sportify.R
-import com.example.sportify.databinding.FragmentHomeBinding
+import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentRegistrationBinding
 import com.example.sportify.entity.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 
 class RegistrationFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: RegistrationViewModel
@@ -42,53 +34,46 @@ class RegistrationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        auth = Firebase.auth
-
 
         binding.createButton.setOnClickListener {
-
             binding.run {
                 val email = emailEditText.text.toString()
                 val password = passwordEditText.text.toString()
 
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success")
-                            val user = auth.currentUser
-                            //updateUI(user)
+                Service.createUser(email, password)
+                    .addOnSuccessListener {
 
-                            val userId = user?.uid
-                            val userRef = FirebaseDatabase.getInstance().getReference("users").child(userId ?: "")
-                            val userData = User(
-                                fullName = fullNameTv.text.toString(),
-                                userName = userNameTv.text.toString(),
-                                phoneNumber = phoneNumber.text.toString(),
-                                email = email,
-                                password = password
-                            )
-                            userRef.setValue(userData)
+                        val userId = Service.getCurrentUser()?.uid
 
-                            Toast.makeText(requireContext(), "Success Authentication", Toast.LENGTH_SHORT,).show()
+                        val userData = User(
+                            fullName = fullNameTv.text.toString(),
+                            userName = userNameTv.text.toString(),
+                            phoneNumber = phoneNumber.text.toString(),
+                            email = email,
+                            password = password
+                        )
+                        Service.addNewUserToDB(userId ?: "", userData)
 
-                            val fragment = LoginFragment()
+                        Toast.makeText(
+                            requireContext(),
+                            "Success Authentication",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-                            parentFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, fragment)
-                                .addToBackStack(null)
-                                .commit()
+                        val fragment = LoginFragment()
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                requireContext(),
-                                "Authentication failed.",
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                            //updateUI(null)
-                        }
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit()
+
+                    }
+                    .addOnFailureListener {  // If sign in fails, display a message to the user.
+                        Toast.makeText(
+                            requireContext(),
+                            "Authentication failed.",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
             }
 
