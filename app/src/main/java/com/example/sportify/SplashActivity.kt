@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View.GONE
 import androidx.appcompat.app.AppCompatActivity
 import com.example.sportify.databinding.ActivitySplashBinding
+import com.example.sportify.presentation.LoginFragment
 import com.example.sportify.presentation.RegistrationFragment
 
 class SplashActivity : AppCompatActivity() {
@@ -18,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.splashView.setOnClickListener {
-            val fragment = RegistrationFragment()
+            val fragment = LoginFragment()
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)
