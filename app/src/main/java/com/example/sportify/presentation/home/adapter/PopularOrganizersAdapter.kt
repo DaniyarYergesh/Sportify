@@ -1,26 +1,38 @@
-package com.example.sportify.presentation.home.adapter
-
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.Adapter
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import android.widget.BaseAdapter
+import com.example.sportify.databinding.ItemPopularOrganizersBinding
+import com.example.sportify.presentation.home.adapter.PopularOrganizers
 
-class PopularOrganizersAdapter : Adapter<PopularOrganizersAdapter.OrganizersViewHolder>() {
+class PopularOrganizersAdapter(private val dataList: List<PopularOrganizers>) : BaseAdapter() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrganizersViewHolder {
-        TODO("Not yet implemented")
+    override fun getCount(): Int {
+        return dataList.size
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+    override fun getItem(position: Int): Any {
+        return dataList[position]
     }
 
-    override fun onBindViewHolder(holder: OrganizersViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
-    inner class OrganizersViewHolder(itemView: View) : ViewHolder(itemView) {
+    @SuppressLint("ViewHolder")
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val dataItem = dataList[position]
+        val itemView = ItemPopularOrganizersBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
+        itemView.organizerName.text = dataItem.organizerName
+        itemView.organizerStatus.text = dataItem.organizerStatus
+        itemView.organizerCategory.text = dataItem.category
+
+        return itemView.root
     }
-
 }

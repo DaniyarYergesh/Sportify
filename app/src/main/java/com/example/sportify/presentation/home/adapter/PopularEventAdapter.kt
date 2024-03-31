@@ -1,26 +1,49 @@
 package com.example.sportify.presentation.home.adapter
 
-import android.view.View
+import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.sportify.databinding.ItemPopularEventsBinding
 
-class PopularEventAdapter : Adapter<PopularEventAdapter.MyViewHolder>() {
+class PopularEventAdapter :
+    ListAdapter<PopularEvent, PopularEventAdapter.MyViewHolder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        TODO("Not yet implemented")
-    }
-
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return MyViewHolder(
+            ItemPopularEventsBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val item = getItem(position)
+        holder.bind(item)
     }
 
+    inner class MyViewHolder(val binding: ItemPopularEventsBinding) : ViewHolder(binding.root) {
+        fun bind(item: PopularEvent) {
+            binding.run {
+                eventName.text = item.eventName
+                eventStatus.text = item.eventStatus
+                eventPrice.text = item.pricePerPerson
+                eventParticipantsNumber.text = item.taken
+            }
+        }
+    }
+}
 
-    inner class MyViewHolder(itemView: View) : ViewHolder(itemView) {
+class DiffUtilCallback : DiffUtil.ItemCallback<PopularEvent>() {
 
+    override fun areItemsTheSame(oldItem: PopularEvent, newItem: PopularEvent): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: PopularEvent, newItem: PopularEvent): Boolean {
+        return oldItem == newItem
     }
 }
