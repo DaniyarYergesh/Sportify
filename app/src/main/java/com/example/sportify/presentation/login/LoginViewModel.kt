@@ -1,4 +1,4 @@
-package com.example.sportify.presentation
+package com.example.sportify.presentation.login
 
 import androidx.lifecycle.ViewModel
 

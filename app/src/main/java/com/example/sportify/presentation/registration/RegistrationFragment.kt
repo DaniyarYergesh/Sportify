@@ -1,4 +1,4 @@
-package com.example.sportify.presentation
+package com.example.sportify.presentation.registration
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import com.example.sportify.R
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentRegistrationBinding
 import com.example.sportify.entity.User
+import com.example.sportify.presentation.login.LoginFragment
 
 class RegistrationFragment : Fragment() {
 
