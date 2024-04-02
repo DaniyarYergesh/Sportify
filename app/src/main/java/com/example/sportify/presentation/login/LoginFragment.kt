@@ -18,10 +18,10 @@ import com.google.firebase.ktx.Firebase
 
 class LoginFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var viewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
+    private lateinit var viewModel: LoginViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

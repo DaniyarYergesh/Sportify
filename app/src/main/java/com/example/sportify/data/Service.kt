@@ -21,6 +21,7 @@ object Service {
     private fun getCurrentUser() = auth.currentUser
 
     fun getEventsDataRef() = eventsRef
+
     fun getUsersDataRef() = usersRef
 
     fun createUser(email: String, password: String): Task<AuthResult> {

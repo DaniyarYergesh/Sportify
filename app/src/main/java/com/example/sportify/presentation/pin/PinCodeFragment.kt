@@ -60,7 +60,6 @@ class PinCodeFragment : Fragment() {
         } else {
             enterWithPin()
         }
-
     }
 
     private fun enterWithPin() {

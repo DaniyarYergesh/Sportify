@@ -21,9 +21,9 @@ import java.util.Locale
 
 class NewContestFragment : Fragment() {
 
-    private var selectedDuration: String = ""
     private var _binding: FragmentNewContestBinding? = null
     private val binding get() = _binding!!
+    private var selectedDuration: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -74,10 +74,8 @@ class NewContestFragment : Fragment() {
                 picker.show(childFragmentManager, "timePicker")
             }
 
-            // Массив с вариантами продолжительности времени
             val durations = arrayOf("1 hour", "2 hours", "3 hours", "4 hours", "5 hours", "6 hours")
 
-            // Создание адаптера для Spinner
             val adapterHour = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, durations)
             adapterEventLevel.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             eventDuration.adapter = adapterHour
@@ -116,8 +114,6 @@ class NewContestFragment : Fragment() {
 
         binding.createButton.setOnClickListener {
             invalidate()
-
-
             Service.createNewEventToDB(event).addOnSuccessListener {
                 Toast.makeText(
                     requireContext(),
@@ -137,9 +133,7 @@ class NewContestFragment : Fragment() {
                     description.text.clear()
                 }
             }
-
         }
-
     }
 
     private fun invalidate() {
@@ -155,7 +149,6 @@ class NewContestFragment : Fragment() {
 
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -11,7 +11,7 @@ import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentHomeBinding
 import com.example.sportify.entity.SportEvent
 import com.example.sportify.entity.User
-import com.example.sportify.presentation.home.adapter.MyViewHolder
+import com.example.sportify.presentation.home.adapter.PopularEventViewHolder
 import com.example.sportify.presentation.home.adapter.PopularEventAdapter
 import com.example.sportify.presentation.home.adapter.PopularOrganizers
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -22,13 +22,12 @@ import com.google.firebase.database.ValueEventListener
 
 class HomeFragment : Fragment() {
 
-    private lateinit var adapterOrganizers: PopularOrganizersAdapter
-    private var dataList = mutableListOf<PopularOrganizers>()
     private var _binding: FragmentHomeBinding? = null
-    private lateinit var popularEvents: FirebaseRecyclerOptions<SportEvent>
-    private lateinit var adapterEvents: FirebaseRecyclerAdapter<SportEvent, MyViewHolder>
-
     private val binding get() = _binding!!
+    private lateinit var popularEvents: FirebaseRecyclerOptions<SportEvent>
+    private lateinit var adapterEvents: FirebaseRecyclerAdapter<SportEvent, PopularEventViewHolder>
+    private var dataList = mutableListOf<PopularOrganizers>()
+    private lateinit var adapterOrganizers: PopularOrganizersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +35,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
