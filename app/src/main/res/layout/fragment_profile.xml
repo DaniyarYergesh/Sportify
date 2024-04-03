@@ -44,6 +44,7 @@
             android:paddingBottom="30dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/image_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -60,6 +61,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/ic_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_photo"
@@ -69,6 +71,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/ic_online"
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:layout_margin="7dp"
