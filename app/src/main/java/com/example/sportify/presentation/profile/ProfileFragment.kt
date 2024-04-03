@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,8 +26,8 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private var sharedPreferences: SharedPreferences? = null
-    var imageUri: Uri? = null
-    var isImageAdded = false
+    private var imageUri: Uri? = null
+    private var isImageAdded = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +58,9 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        Glide.with(this@ProfileFragment)
-            .load(loadUserDataFromSharedPreferences()?.photo)
-            .into(binding.profileImage)
+        if (loadUserDataFromSharedPreferences()?.photo != null) {
+            setPhotoProfile()
+        }
 
         binding.imageProfile.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
@@ -74,15 +75,7 @@ class ProfileFragment : Fragment() {
         if (requestCode == REQUEST_CODE_IMAGE && data != null) {
             imageUri = data.data
             isImageAdded = true
-
-            Glide.with(this)
-                .load(imageUri)
-                .into(binding.profileImage)
-
-            binding.run {
-                icOnline.isVisible = false
-                icPhoto.isVisible = false
-            }
+            setPhotoProfile(imageUri)
 
             Service.getUserPhotoStorageRef().child(Service.getCurrentUser()?.uid.orEmpty() + ".jpg")
                 .putFile(imageUri!!)
@@ -94,25 +87,48 @@ class ProfileFragment : Fragment() {
                             Service.getUsersDataRef().child(Service.getCurrentUser()?.uid.orEmpty())
                                 .child("photo").setValue(it.toString())
 
-                            saveUserDataToSharedPreferences(loadUserDataFromSharedPreferences()?.copy(photo = it.toString())!!)
-
                         }
                 }
         }
     }
 
-    fun saveUserDataToSharedPreferences(user: User) {
+    override fun onStop() {
+        if (isImageAdded && imageUri != null) {
+            saveUserDataToSharedPreferences(
+                loadUserDataFromSharedPreferences()?.copy(photo = imageUri.toString())!!
+            )
+            imageUri = null
+            isImageAdded = false
+        }
+        super.onStop()
+    }
+
+
+    private fun setPhotoProfile(uri: Uri? = null) {
+        binding.run {
+            Glide.with(this@ProfileFragment)
+                .load(uri?:loadUserDataFromSharedPreferences()?.photo)
+                .into(profileImage)
+
+            icOnline.isVisible = false
+            icPhoto.isVisible = false
+        }
+    }
+
+    private fun saveUserDataToSharedPreferences(user: User) {
         val gson = Gson()
         val userJsonString = gson.toJson(user)
 
-        val sharedPreferences = requireContext().getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+        val sharedPreferences =
+            requireContext().getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("user_data", userJsonString)
         editor.apply()
     }
 
-    fun loadUserDataFromSharedPreferences(): User? {
-        val sharedPreferences = requireContext().getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
+    private fun loadUserDataFromSharedPreferences(): User? {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("my_preferences", Context.MODE_PRIVATE)
         val userJsonString = sharedPreferences.getString("user_data", null)
 
         if (userJsonString != null) {
@@ -122,7 +138,6 @@ class ProfileFragment : Fragment() {
             return null
         }
     }
-
 
     companion object {
         private const val REQUEST_CODE_IMAGE: Int = 101
