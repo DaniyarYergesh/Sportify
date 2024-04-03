@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.sportify.MainActivity
 import com.example.sportify.R
 import com.example.sportify.databinding.FragmentLoginBinding
+import com.example.sportify.presentation.pin.PinCodeFragment
 import com.example.sportify.presentation.registration.RegistrationFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -63,12 +64,12 @@ class LoginFragment : Fragment() {
                         if (it.isSuccessful) {
 
                             saveLoginState(true, auth.currentUser?.uid.orEmpty())
-                            requireContext().startActivity(
-                                Intent(
-                                    requireContext(),
-                                    MainActivity::class.java
-                                )
-                            )
+                            val fragment = PinCodeFragment()
+
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit()
                         }
                     }
             }
@@ -77,7 +78,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun saveLoginState(isLoggedIn: Boolean, userId: String) {
-        val sharedPref = activity?.getSharedPreferences("my_preferences", Context.MODE_PRIVATE) ?: return
+        val sharedPref =
+            activity?.getSharedPreferences("my_preferences", Context.MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
             putBoolean(getString(R.string.is_logged_in_key), isLoggedIn)
             putString(getString(R.string.user_id), userId)
