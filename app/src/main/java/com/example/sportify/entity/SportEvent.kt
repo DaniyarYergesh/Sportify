@@ -1,8 +1,9 @@
 package com.example.sportify.entity
 
-import java.util.Date
+import java.io.Serializable
 
 data class SportEvent(
+    val eventId: String = "",
     val eventName: String = "",
     val level: String = "",
     val location: String = "",
@@ -13,7 +14,7 @@ data class SportEvent(
     val maxParticipants: String = "",
     val duration: String = "",
     val status: String = SportEventStatus.OPEN.name,
-)
+) : Serializable
 
 enum class SportEventStatus {
     OPEN, CLOSED
