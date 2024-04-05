@@ -9,11 +9,12 @@ data class SportEvent(
     val location: String = "",
     val date: String = "",
     val time: String = "",
+    val duration: String = "",
+    val status: String = SportEventStatus.OPEN.name,
     val sportCategory: String = "",
     val participantsNumber: String = "",
     val maxParticipants: String = "",
-    val duration: String = "",
-    val status: String = SportEventStatus.OPEN.name,
+    val participants: Map<String, Boolean> = mapOf(),
 ) : Serializable
 
 enum class SportEventStatus {
