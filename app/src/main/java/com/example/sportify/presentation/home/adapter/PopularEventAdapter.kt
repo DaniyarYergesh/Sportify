@@ -1,8 +1,10 @@
 package com.example.sportify.presentation.home.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.sportify.data.Service
 import com.example.sportify.databinding.ItemPopularEventsBinding
 import com.example.sportify.entity.SportEvent
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -29,12 +31,15 @@ class PopularEventAdapter(options: FirebaseRecyclerOptions<SportEvent>, val onCl
 class PopularEventViewHolder(val binding: ItemPopularEventsBinding, private val onClick:(SportEvent)->Unit) : ViewHolder(binding.root) {
     fun bind(item: SportEvent) {
         val popularEvent = convertSportEventToPopularEvent(item)
+        val joined = Service.checkIfJoinedToEvent(item.participants)
 
         binding.run {
             eventName.text = popularEvent.eventName
             eventStatus.text = popularEvent.eventStatus
             eventPrice.text = popularEvent.pricePerPerson
             eventParticipantsNumber.text = popularEvent.taken
+            joinText.text = if (joined) "JOINED" else "JOIN"
+            joinText.setBackgroundColor(if (joined) Color.WHITE else Color.GREEN)
             root.setOnClickListener { onClick.invoke(item) }
         }
 
