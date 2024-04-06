@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.EventDetailsBottomSheetBinding
 import com.example.sportify.entity.SportEvent
+import com.example.sportify.entity.SportEventStatus
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
@@ -49,22 +50,30 @@ class EventDetailsBottomSheet : BottomSheetDialogFragment() {
                 }
             } else {
                 createButton.setOnClickListener {
-                    Service.subscribeToEvent(sportEvent = item,
-                        onSuccess = {
-                            Toast.makeText(
-                                requireContext(),
-                                "You have joined",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            dismiss()
-                        }, onError = { message ->
-                            Toast.makeText(
-                                requireContext(),
-                                message,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            dismiss()
-                        })
+                    if (item.status == SportEventStatus.CLOSED.name) {
+                        Toast.makeText(
+                            requireContext(),
+                            "You cant join to Current event, it is full",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Service.subscribeToEvent(sportEvent = item,
+                            onSuccess = {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "You have joined",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                dismiss()
+                            }, onError = { message ->
+                                Toast.makeText(
+                                    requireContext(),
+                                    message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                dismiss()
+                            })
+                    }
                 }
             }
 
