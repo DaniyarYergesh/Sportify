@@ -58,9 +58,14 @@ object Service {
             })
     }
 
-    fun createNewEventToDB(event: SportEvent): Task<Void> {
+    fun createNewEventToDB(event: SportEvent, onSuccess: () -> Unit) {
         val key = eventsRef.push().key ?: ""
-        return eventsRef.child(key).setValue(event.copy(eventId = key))
+        val eventsNumberOrganized = user.organizedEventsNumber + 1
+        usersRef.child(getCurrentUser()?.uid ?: "").child("organizedEventsNumber").setValue(eventsNumberOrganized).addOnSuccessListener {
+            eventsRef.child(key).setValue(event.copy(eventId = key)).addOnSuccessListener {
+                onSuccess.invoke()
+            }
+        }
     }
 
     fun subscribeToEvent(sportEvent: SportEvent, onSuccess: () -> Unit, onError: (String) -> Unit) {
@@ -69,10 +74,6 @@ object Service {
             usersRef.child(getCurrentUser()?.uid ?: "").child("events")
                 .child(sportEvent.eventId).setValue(true)
                 .addOnSuccessListener {
-
-                    val eventsNumberOrganized = user.organizedEventsNumber + 1
-                    usersRef.child(getCurrentUser()?.uid ?: "")
-                        .child("organizedEventsNumber").setValue(eventsNumberOrganized)
 
                     if (sportEvent.participantsNumber == sportEvent.maxParticipants) {
                         eventsRef.child(sportEvent.eventId).child("status")

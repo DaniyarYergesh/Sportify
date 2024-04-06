@@ -54,6 +54,7 @@ class PinCodeFragment : Fragment() {
 
     private fun enterWithPin() {
         binding.run {
+            pinEditText.requestFocus()
             setPinBlock.visibility = GONE
             enterPinBlock.visibility = VISIBLE
 
