@@ -9,10 +9,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentNotificationsBinding
 import com.example.sportify.entity.SportEvent
+import com.example.sportify.presentation.home.adapter.MyEventsAdapter
 import com.example.sportify.presentation.home.adapter.PopularEventAdapter
 import com.example.sportify.presentation.home.adapter.PopularEventViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NotificationsFragment : Fragment() {
 
@@ -20,8 +27,9 @@ class NotificationsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var popularEvents: FirebaseRecyclerOptions<SportEvent>
     private lateinit var adapterEvents: FirebaseRecyclerAdapter<SportEvent, PopularEventViewHolder>
+    private lateinit var adapterForMostPopularEvent: MyEventsAdapter
 
-    override fun onCreateView(
+            override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,14 +47,15 @@ class NotificationsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadData()
+        loadDataNearestWeek()
         loadDataRV2()
     }
 
-    private fun loadData() {
+    private fun loadDataNearestWeek() {
+
+        val query = getQueryForNearestEvents()
         popularEvents =
-            FirebaseRecyclerOptions.Builder<SportEvent>()
-                .setQuery(Service.getEventsDataRef(), SportEvent::class.java)
+            FirebaseRecyclerOptions.Builder<SportEvent>().setQuery(query, SportEvent::class.java)
                 .build()
         adapterEvents = PopularEventAdapter(popularEvents, {})
         adapterEvents.startListening()
@@ -54,13 +63,51 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun loadDataRV2() {
-        popularEvents =
-            FirebaseRecyclerOptions.Builder<SportEvent>()
-                .setQuery(Service.getEventsDataRef(), SportEvent::class.java)
-                .build()
-        adapterEvents = PopularEventAdapter(popularEvents, {})
-        adapterEvents.startListening()
-        binding.popularOrganizersRv.adapter = adapterEvents
+
+        getQueryForNearestEvents().addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var maxParticipants = 0
+                var maxParticipantEvent: SportEvent? = null
+
+                // Проходим по всем полученным событиям
+                for (eventSnapshot in dataSnapshot.children) {
+                    val event = eventSnapshot.getValue(SportEvent::class.java)
+
+                    // Проверяем, является ли текущий ивент событием с наибольшим количеством участников
+                    if (event != null && event.participantsNumber > maxParticipants) {
+                        maxParticipants = event.participantsNumber
+                        maxParticipantEvent = event
+                    }
+                }
+                val list = listOf(maxParticipantEvent)
+                adapterForMostPopularEvent = MyEventsAdapter( {})
+                adapterForMostPopularEvent.submitList(list)
+                binding.popularOrganizersRv.adapter = adapterEvents
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Обработка ошибок, если запрос к базе данных не удался
+            }
+        })
+
+    }
+
+    private fun getQueryForNearestEvents(): Query {
+        val currentDate = Calendar.getInstance()
+        val dateFormatForDataRef = SimpleDateFormat("yyyy-MM-dd ", Locale.getDefault())
+
+        currentDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        val startDate = currentDate.timeInMillis
+
+        currentDate.add(Calendar.DAY_OF_WEEK, 7)
+        val endDate = currentDate.timeInMillis
+
+
+        val query = Service.getEventsDataRef()
+            .orderByChild("date")
+            .startAt(dateFormatForDataRef.format(startDate))
+            .endAt(dateFormatForDataRef.format(endDate))
+        return query
     }
 
 
