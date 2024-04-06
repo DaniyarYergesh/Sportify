@@ -1,4 +1,4 @@
-package com.example.sportify.presentation.registration
+package com.example.sportify.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,19 +11,11 @@ import com.example.sportify.R
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentRegistrationBinding
 import com.example.sportify.entity.User
-import com.example.sportify.presentation.login.LoginFragment
 
 class RegistrationFragment : Fragment() {
 
     private var _binding: FragmentRegistrationBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: RegistrationViewModel
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RegistrationViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

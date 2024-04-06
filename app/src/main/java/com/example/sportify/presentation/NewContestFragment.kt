@@ -1,4 +1,4 @@
-package com.example.sportify.presentation.newcontest
+package com.example.sportify.presentation
 
 import android.R
 import android.os.Bundle

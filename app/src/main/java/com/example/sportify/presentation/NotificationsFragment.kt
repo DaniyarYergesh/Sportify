@@ -1,11 +1,10 @@
-package com.example.sportify.presentation.notifications
+package com.example.sportify.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentNotificationsBinding
 import com.example.sportify.entity.SportEvent
@@ -29,20 +28,14 @@ class NotificationsFragment : Fragment() {
     private lateinit var adapterEvents: FirebaseRecyclerAdapter<SportEvent, PopularEventViewHolder>
     private lateinit var adapterForMostPopularEvent: MyEventsAdapter
 
-            override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-
-        }
         return root
     }
 
@@ -80,7 +73,7 @@ class NotificationsFragment : Fragment() {
                     }
                 }
                 val list = listOf(maxParticipantEvent)
-                adapterForMostPopularEvent = MyEventsAdapter( {})
+                adapterForMostPopularEvent = MyEventsAdapter({})
                 adapterForMostPopularEvent.submitList(list)
                 binding.popularOrganizersRv.adapter = adapterEvents
             }

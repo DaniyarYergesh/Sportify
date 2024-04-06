@@ -13,20 +13,20 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.sportify.presentation.search.SearchFragment"
+        android:name="com.example.sportify.presentation.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" >
     </fragment>
 
     <fragment
         android:id="@+id/navigation_new_contest"
-        android:name="com.example.sportify.presentation.newcontest.NewContestFragment"
+        android:name="com.example.sportify.presentation.NewContestFragment"
         android:label="@string/title_new_contest"
         tools:layout="@layout/fragment_new_contest" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.sportify.presentation.notifications.NotificationsFragment"
+        android:name="com.example.sportify.presentation.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
