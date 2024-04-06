@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentSearchBinding
@@ -33,7 +34,7 @@ class SearchFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){}
         loadData("")
 
         binding.editTextSearch.addTextChangedListener(object : TextWatcher {

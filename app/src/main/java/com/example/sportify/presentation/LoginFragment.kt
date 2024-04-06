@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.sportify.R
 import com.example.sportify.databinding.FragmentLoginBinding
@@ -48,21 +50,25 @@ class LoginFragment : Fragment() {
                     emailEditText.text.toString(),
                     passwordEditText.text.toString()
                 )
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
+                    .addOnSuccessListener {
+                        saveLoginState(true, auth.currentUser?.uid.orEmpty())
+                        val fragment = PinCodeFragment()
 
-                            saveLoginState(true, auth.currentUser?.uid.orEmpty())
-                            val fragment = PinCodeFragment()
-
-                            parentFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, fragment)
-                                .addToBackStack(null)
-                                .commit()
-                        }
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fragment)
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Incorrect Password Or Email",
+                            Toast.LENGTH_SHORT,
+                        ).show()
                     }
             }
-
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){}
     }
 
     private fun saveLoginState(isLoggedIn: Boolean, userId: String) {

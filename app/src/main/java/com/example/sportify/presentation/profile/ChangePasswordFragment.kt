@@ -6,12 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.example.sportify.R
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentChangePasswordBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ChangePasswordFragment : Fragment() {
 
+    private lateinit var bottomNavigationView: BottomNavigationView
     private var _binding: FragmentChangePasswordBinding? = null
     private val binding get() = _binding!!
 
@@ -24,11 +28,17 @@ class ChangePasswordFragment : Fragment() {
         _binding = FragmentChangePasswordBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        bottomNavigationView = requireActivity().findViewById(R.id.nav_view)
+        bottomNavigationView.isVisible = false
+
         return root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.toolbar.setNavigationOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
         invalidate()
     }
 
@@ -72,5 +82,10 @@ class ChangePasswordFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        bottomNavigationView.isVisible = true
     }
 }

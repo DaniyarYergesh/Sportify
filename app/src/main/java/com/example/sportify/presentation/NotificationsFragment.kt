@@ -4,19 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentNotificationsBinding
 import com.example.sportify.entity.SportEvent
-import com.example.sportify.presentation.home.adapter.MyEventsAdapter
 import com.example.sportify.presentation.home.adapter.PopularEventAdapter
 import com.example.sportify.presentation.home.adapter.PopularEventViewHolder
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,6 +36,7 @@ class NotificationsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){}
         loadDataNearestWeek()
     }
 

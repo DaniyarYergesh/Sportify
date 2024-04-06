@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.example.sportify.data.Service
 import com.example.sportify.databinding.FragmentNewContestBinding
@@ -112,7 +113,7 @@ class NewContestFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner){}
         binding.createButton.setOnClickListener {
             invalidate()
         }
