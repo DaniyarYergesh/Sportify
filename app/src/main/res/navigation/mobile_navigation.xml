@@ -38,6 +38,11 @@
         <action
             android:id="@+id/action_navigation_profile_to_accountInformationFragment"
             app:destination="@id/accountInformationFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+
+
     </fragment>
 
     <fragment
@@ -46,5 +51,10 @@
         android:label="Edit Account Info"
         tools:layout="@layout/fragment_account_edit" />
 
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.sportify.presentation.profile.ChangePasswordFragment"
+        android:label="Change Password"
+        tools:layout="@layout/fragment_change_password" />
 
 </navigation>
