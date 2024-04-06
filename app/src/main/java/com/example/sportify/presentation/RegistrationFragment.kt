@@ -30,43 +30,44 @@ class RegistrationFragment : Fragment() {
 
         binding.createButton.setOnClickListener {
             binding.run {
-                invalidate()
-                val email = emailEditText.text.toString()
-                val password = passwordEditText.text.toString()
+                if (invalidate()) {
+                    val email = emailEditText.text.toString()
+                    val password = passwordEditText.text.toString()
 
-                Service.createUser(email, password)
-                    .addOnSuccessListener {
+                    Service.createUser(email, password)
+                        .addOnSuccessListener {
 
-                        val userData = User(
-                            fullName = fullNameTv.text.toString(),
-                            userName = userNameTv.text.toString(),
-                            phoneNumber = phoneNumber.text.toString(),
-                            email = email,
-                            password = password
-                        )
-                        Service.createNewUserToDB(userData)
+                            val userData = User(
+                                fullName = fullNameTv.text.toString(),
+                                userName = userNameTv.text.toString(),
+                                phoneNumber = phoneNumber.text.toString(),
+                                email = email,
+                                password = password
+                            )
+                            Service.createNewUserToDB(userData)
 
-                        Toast.makeText(
-                            requireContext(),
-                            "Success Authentication",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Success Authentication",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                        val fragment = LoginFragment()
+                            val fragment = LoginFragment()
 
-                        parentFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragment)
-                            .addToBackStack(null)
-                            .commit()
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit()
 
-                    }
-                    .addOnFailureListener {  // If sign in fails, display a message to the user.
-                        Toast.makeText(
-                            requireContext(),
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    }
+                        }
+                        .addOnFailureListener {  // If sign in fails, display a message to the user.
+                            Toast.makeText(
+                                requireContext(),
+                                "Authentication failed.",
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
+                }
             }
         }
 
@@ -80,23 +81,25 @@ class RegistrationFragment : Fragment() {
         }
     }
 
-    private fun invalidate() {
-        binding.run{
+    private fun invalidate(): Boolean {
+        binding.run {
             if (fullNameTv.text.isNullOrEmpty()
                 || userNameTv.text.isNullOrEmpty()
                 || phoneNumber.text.isNullOrEmpty()
                 || emailEditText.text.isNullOrEmpty()
                 || passwordEditText.text.isNullOrEmpty()
-                || confirmPassword.text.isNullOrEmpty())
-            {
+                || confirmPassword.text.isNullOrEmpty()
+                || (passwordEditText.text.toString() != confirmPassword.text.toString())
+            ) {
                 Toast.makeText(
                     requireContext(),
                     "fill all fields",
                     Toast.LENGTH_SHORT,
                 ).show()
-                return
+                return false
             }
         }
+        return true
     }
 
     override fun onDestroyView() {

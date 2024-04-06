@@ -26,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             } else {
+
                 val fragment = LoginFragment()
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment)
